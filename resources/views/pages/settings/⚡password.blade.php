@@ -42,40 +42,40 @@ new #[Title('Password settings')] class extends Component {
 <section class="w-full">
     @include('partials.settings-heading')
 
-    <flux:heading class="sr-only">{{ __('Password settings') }}</flux:heading>
+    <h2 class="sr-only">{{ __('Password settings') }}</h2>
 
     <x-pages::settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
         <form method="POST" wire:submit="updatePassword" class="mt-6 space-y-6">
-            <flux:input
+            <x-input
                 wire:model="current_password"
                 :label="__('Current password')"
+                name="current_password"
                 type="password"
                 required
                 autocomplete="current-password"
-                viewable
             />
-            <flux:input
+            <x-input
                 wire:model="password"
                 :label="__('New password')"
+                name="password"
                 type="password"
                 required
                 autocomplete="new-password"
-                viewable
             />
-            <flux:input
+            <x-input
                 wire:model="password_confirmation"
                 :label="__('Confirm password')"
+                name="password_confirmation"
                 type="password"
                 required
                 autocomplete="new-password"
-                viewable
             />
 
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">
-                    <flux:button variant="primary" type="submit" class="w-full" data-test="update-password-button">
+                    <x-button variant="primary" type="submit" class="w-full" data-test="update-password-button">
                         {{ __('Save') }}
-                    </flux:button>
+                    </x-button>
                 </div>
 
                 <x-action-message class="me-3" on="password-updated">

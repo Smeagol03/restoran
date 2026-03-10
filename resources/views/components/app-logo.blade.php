@@ -3,15 +3,17 @@
 ])
 
 @if($sidebar)
-    <flux:sidebar.brand name="Laravel Starter Kit" {{ $attributes }}>
-        <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
+    <a {{ $attributes->merge(['class' => 'flex items-center gap-2 font-semibold text-zinc-900 dark:text-white']) }}>
+        <span class="flex aspect-square size-8 items-center justify-center rounded-md bg-zinc-900 dark:bg-white">
             <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
-        </x-slot>
-    </flux:sidebar.brand>
+        </span>
+        <span>{{ config('app.name') }}</span>
+    </a>
 @else
-    <flux:brand name="Laravel Starter Kit" {{ $attributes }}>
-        <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
+    <a {{ $attributes->merge(['class' => 'flex items-center gap-2 font-semibold text-zinc-900 dark:text-white']) }}>
+        <span class="flex aspect-square size-8 items-center justify-center rounded-md bg-zinc-900 dark:bg-white">
             <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
-        </x-slot>
-    </flux:brand>
+        </span>
+        <span>{{ config('app.name') }}</span>
+    </a>
 @endif

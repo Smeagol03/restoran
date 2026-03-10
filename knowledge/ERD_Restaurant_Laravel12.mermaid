@@ -1,0 +1,204 @@
+erDiagram
+    %% ─────────────────────────────────────────
+    %%  ERD — Website Restoran (Laravel 12)
+    %% ─────────────────────────────────────────
+
+    USERS {
+        bigint      id              PK
+        string      name
+        string      email           UK
+        string      phone
+        string      password
+        string      google_id
+        timestamp   email_verified_at
+        timestamp   created_at
+        timestamp   updated_at
+    }
+
+    ROLES {
+        bigint  id      PK
+        string  name    UK
+        string  guard_name
+    }
+
+    MODEL_HAS_ROLES {
+        bigint  role_id     FK
+        string  model_type
+        bigint  model_id    FK
+    }
+
+    CATEGORIES {
+        bigint  id          PK
+        string  name
+        string  slug        UK
+        string  description
+        string  icon
+        int     sort_order
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    MENU_ITEMS {
+        bigint      id                  PK
+        bigint      category_id         FK
+        string      name
+        string      slug                UK
+        text        description
+        decimal     price
+        boolean     is_available
+        boolean     is_featured
+        int         preparation_time
+        timestamp   deleted_at
+        timestamp   created_at
+        timestamp   updated_at
+    }
+
+    TABLES {
+        bigint  id          PK
+        string  number      UK
+        int     capacity
+        enum    status
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ADDRESSES {
+        bigint  id              PK
+        bigint  user_id         FK
+        string  label
+        string  recipient_name
+        string  phone
+        text    address
+        string  city
+        string  province
+        string  postal_code
+        decimal latitude
+        decimal longitude
+        boolean is_default
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PROMOS {
+        bigint      id                  PK
+        string      name
+        string      code                UK
+        enum        type
+        decimal     value
+        decimal     min_order_amount
+        decimal     max_discount_amount
+        int         usage_limit
+        int         used_count
+        boolean     is_active
+        timestamp   starts_at
+        timestamp   expires_at
+        timestamp   created_at
+        timestamp   updated_at
+    }
+
+    ORDERS {
+        bigint      id                  PK
+        bigint      user_id             FK
+        string      order_number        UK
+        enum        type
+        enum        status
+        bigint      table_id            FK
+        bigint      delivery_address_id FK
+        text        notes
+        decimal     subtotal
+        decimal     discount_amount
+        decimal     delivery_fee
+        decimal     total
+        bigint      promo_id            FK
+        timestamp   deleted_at
+        timestamp   created_at
+        timestamp   updated_at
+    }
+
+    ORDER_ITEMS {
+        bigint  id              PK
+        bigint  order_id        FK
+        bigint  menu_item_id    FK
+        int     quantity
+        decimal unit_price
+        decimal subtotal
+        text    notes
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PAYMENTS {
+        bigint      id                          PK
+        bigint      order_id                    FK
+        enum        method
+        decimal     amount
+        enum        status
+        string      midtrans_transaction_id
+        string      midtrans_snap_token
+        string      payment_proof
+        timestamp   paid_at
+        timestamp   expired_at
+        timestamp   created_at
+        timestamp   updated_at
+    }
+
+    RESERVATIONS {
+        bigint      id                  PK
+        bigint      user_id             FK
+        bigint      table_id            FK
+        string      name
+        string      phone
+        string      email
+        date        reservation_date
+        time        reservation_time
+        int         guest_count
+        text        notes
+        enum        status
+        timestamp   reminder_sent_at
+        timestamp   created_at
+        timestamp   updated_at
+    }
+
+    REVIEWS {
+        bigint      id              PK
+        bigint      order_id        FK
+        bigint      user_id         FK
+        bigint      menu_item_id    FK
+        tinyint     rating
+        text        comment
+        boolean     is_published
+        timestamp   created_at
+        timestamp   updated_at
+    }
+
+    %% ─────────────────────────────────────────
+    %%  RELASI
+    %% ─────────────────────────────────────────
+
+    USERS            ||--o{ ORDERS           : "membuat"
+    USERS            ||--o{ RESERVATIONS     : "membuat"
+    USERS            ||--o{ ADDRESSES        : "memiliki"
+    USERS            ||--o{ REVIEWS          : "menulis"
+    USERS            }o--o{ ROLES            : "memiliki (via model_has_roles)"
+
+    ROLES            ||--o{ MODEL_HAS_ROLES  : "diberikan ke"
+    USERS            ||--o{ MODEL_HAS_ROLES  : "menerima"
+
+    CATEGORIES       ||--o{ MENU_ITEMS       : "memiliki"
+
+    MENU_ITEMS       ||--o{ ORDER_ITEMS      : "ada di"
+    MENU_ITEMS       ||--o{ REVIEWS          : "diulas"
+
+    ORDERS           ||--o{ ORDER_ITEMS      : "berisi"
+    ORDERS           ||--|| PAYMENTS         : "memiliki"
+    ORDERS           ||--o| REVIEWS          : "diulas"
+    ORDERS           }o--|| USERS            : "dimiliki"
+    ORDERS           }o--o| TABLES           : "di meja"
+    ORDERS           }o--o| ADDRESSES        : "diantar ke"
+    ORDERS           }o--o| PROMOS           : "menggunakan"
+
+    TABLES           ||--o{ RESERVATIONS     : "dipesan via"
+
+    RESERVATIONS     }o--|| USERS            : "dimiliki"
+    RESERVATIONS     }o--o| TABLES           : "untuk meja"
