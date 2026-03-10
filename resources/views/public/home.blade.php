@@ -127,6 +127,11 @@
                             <p class="font-bold text-zinc-700 text-lg leading-snug">
                                 Kami membuang semua yang tidak perlu, menyisakan murni hierarki rasa. Bentuk selalu mengikuti fungsionalitas rasa.
                             </p>
+                            <div class="mt-12">
+                                <a href="{{ route('about') }}" class="inline-block bg-black text-white px-8 py-4 text-sm font-bold uppercase tracking-widest hover:bg-orange-600 transition-colors" wire:navigate>
+                                    Selengkapnya &rarr;
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

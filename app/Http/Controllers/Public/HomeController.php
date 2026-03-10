@@ -18,4 +18,9 @@ class HomeController extends Controller
 
         return view('public.home', compact('featuredItems'));
     }
+
+    public function about(): View
+    {
+        return view('public.about');
+    }
 }

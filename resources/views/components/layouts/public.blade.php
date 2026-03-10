@@ -24,7 +24,7 @@
                         <a href="{{ route('menu.index') }}" class="px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->is('menu*') ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-zinc-800' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800' }}" wire:navigate>
                             {{ __('Menu') }}
                         </a>
-                        <a href="#about" class="px-3 py-2 text-sm font-medium rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+                        <a href="{{ route('about') }}" class="px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->is('about*') ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-zinc-800' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800' }}" wire:navigate>
                             {{ __('About') }}
                         </a>
                     </nav>
@@ -69,7 +69,7 @@
                 <div class="px-4 py-3 space-y-1">
                     <a href="{{ route('home') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->is('/') ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-zinc-800' : 'text-zinc-600 dark:text-zinc-400' }}" wire:navigate>{{ __('Home') }}</a>
                     <a href="{{ route('menu.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->is('menu*') ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-zinc-800' : 'text-zinc-600 dark:text-zinc-400' }}" wire:navigate>{{ __('Menu') }}</a>
-                    <a href="#about" class="block px-3 py-2 rounded-lg text-sm font-medium text-zinc-600 dark:text-zinc-400">{{ __('About') }}</a>
+                    <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->is('about*') ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-zinc-800' : 'text-zinc-600 dark:text-zinc-400' }}" wire:navigate>{{ __('About') }}</a>
                     @guest
                         <hr class="my-2 border-zinc-200 dark:border-zinc-700">
                         <a href="{{ route('login') }}" class="block px-3 py-2 rounded-lg text-sm font-medium text-zinc-600 dark:text-zinc-400" wire:navigate>{{ __('Log in') }}</a>
