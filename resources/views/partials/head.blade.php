@@ -16,9 +16,15 @@
 
 {{-- Dark mode script (inline to prevent flash) --}}
 <script>
-    if (localStorage.getItem('appearance') === 'dark' || (!localStorage.getItem('appearance') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
+    (function () {
+        const updateTheme = () => {
+            if (localStorage.getItem('appearance') === 'dark' || (!localStorage.getItem('appearance') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        };
+        updateTheme();
+        document.addEventListener('livewire:navigated', updateTheme);
+    })();
 </script>

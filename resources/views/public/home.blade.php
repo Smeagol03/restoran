@@ -56,22 +56,33 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 border-t-[3px] border-black dark:border-zinc-800 pt-12 mb-24">
-                    @foreach ($featuredItems as $i => $item)
-                        <div class="flex flex-col group cursor-pointer border-t-[3px] border-black dark:border-zinc-800 pt-4">
-                            <div class="flex justify-between items-end pb-4 mb-6">
-                                <span class="font-black text-3xl leading-none text-zinc-400 dark:text-zinc-600">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
-                                <span class="text-orange-600 font-black text-xl tracking-tight">IDR {{ number_format($item->price, 0, ',', '.') }}</span>
+                @if ($featuredItems->isNotEmpty())
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 border-t-[3px] border-black dark:border-zinc-800 pt-12 mb-24">
+                        @foreach ($featuredItems as $i => $item)
+                            <div class="flex flex-col group cursor-pointer border-t-[3px] border-black dark:border-zinc-800 pt-4">
+                                <div class="flex justify-between items-end pb-4 mb-6">
+                                    <span class="font-black text-3xl leading-none text-zinc-400 dark:text-zinc-600">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <span class="text-orange-600 font-black text-xl tracking-tight">IDR {{ number_format($item->price, 0, ',', '.') }}</span>
+                                </div>
+                                <div class="aspect-4/5 bg-zinc-200 dark:bg-zinc-900 mb-6 flex items-center justify-center relative overflow-hidden transition-transform duration-700">
+                                    <svg class="size-16 text-zinc-400 dark:text-zinc-700 transition-transform duration-700 group-hover:scale-110" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
+                                    <div class="absolute inset-0 bg-transparent group-hover:bg-orange-600/10 transition-colors duration-500"></div>
+                                </div>
+                                <h3 class="text-3xl font-black uppercase tracking-tight mb-3 text-black dark:text-white group-hover:text-orange-600 transition-colors">{{ $item->name }}</h3>
+                                <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed font-medium">{{ $item->description }}</p>
                             </div>
-                            <div class="aspect-4/5 bg-zinc-200 dark:bg-zinc-900 mb-6 flex items-center justify-center relative overflow-hidden transition-transform duration-700">
-                                <svg class="size-16 text-zinc-400 dark:text-zinc-700 transition-transform duration-700 group-hover:scale-110" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
-                                <div class="absolute inset-0 bg-transparent group-hover:bg-orange-600/10 transition-colors duration-500"></div>
-                            </div>
-                            <h3 class="text-3xl font-black uppercase tracking-tight mb-3 text-black dark:text-white group-hover:text-orange-600 transition-colors">{{ $item->name }}</h3>
-                            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed font-medium">{{ $item->description }}</p>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="mb-24">
+                        <x-empty-state
+                            title="Belum Ada Menu Unggulan"
+                            description="Kami sedang mengkurasi hidangan terbaik untuk ditampilkan di sini. Nantikan kejutan dari kami!"
+                            action-label="Eksplorasi Semua Menu"
+                            action-url="{{ route('menu.index') }}"
+                        />
+                    </div>
+                @endif
 
                 <div class="border-t-[3px] border-zinc-200 dark:border-zinc-800 pt-12 flex justify-end">
                     <a href="{{ route('menu.index') }}" class="inline-block border-4 border-black dark:border-zinc-200 text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black px-12 py-6 text-xl font-black uppercase tracking-widest transition-all duration-300 w-full md:w-auto text-center" wire:navigate>
