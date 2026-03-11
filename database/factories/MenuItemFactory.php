@@ -25,7 +25,7 @@ class MenuItemFactory extends Factory
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
             'description' => $this->faker->paragraph(),
-            'price' => $this->faker->randomFloat(2, 10000, 150000),
+            'price' => $this->faker->numberBetween(10000, 150000),
             'is_available' => true,
             'is_featured' => $this->faker->boolean(20),
             'preparation_time' => $this->faker->numberBetween(10, 30),

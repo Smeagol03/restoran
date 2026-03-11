@@ -13,27 +13,24 @@
     @endif
 
     @if($isCreating || $isEditing)
-        <div class="bg-white dark:bg-zinc-900 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800">
-            <h2 class="text-lg font-bold mb-4 text-zinc-900 dark:text-white">
-                {{ $isEditing ? 'Edit Kategori' : 'Tambah Kategori Baru' }}
-            </h2>
-            <form wire:submit.prevent="{{ $isEditing ? 'update' : 'store' }}" class="space-y-4">
+        <x-modal :open="$isCreating || $isEditing" title="{{ $isEditing ? 'Edit Kategori' : 'Tambah Kategori Baru' }}" close="cancel">
+            <form wire:submit.prevent="{{ $isEditing ? 'update' : 'store' }}" class="space-y-5">
                 <div>
-                    <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Nama Kategori</label>
-                    <input type="text" wire:model="name" class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-orange-500">
-                    @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    <x-label for="name" value="Nama Kategori" />
+                    <x-input type="text" id="name" wire:model="name" placeholder="Masukkan nama kategori" />
+                    <x-error :messages="$errors->get('name')" />
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Deskripsi</label>
-                    <textarea wire:model="description" rows="3" class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-orange-500"></textarea>
-                    @error('description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    <x-label for="description" value="Deskripsi" />
+                    <x-textarea id="description" wire:model="description" rows="3" placeholder="Masukkan deskripsi kategori..."></x-textarea>
+                    <x-error :messages="$errors->get('description')" />
                 </div>
-                <div class="flex gap-3">
+                <div class="flex gap-3 pt-2">
                     <x-button type="submit" variant="primary">Simpan</x-button>
                     <x-button type="button" variant="ghost" wire:click="cancel">Batal</x-button>
                 </div>
             </form>
-        </div>
+        </x-modal>
     @endif
 
     <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
@@ -53,8 +50,8 @@
                         <td class="px-6 py-4 text-zinc-500">{{ $category->description ?? '-' }}</td>
                         <td class="px-6 py-4">{{ $category->menu_items_count ?? $category->menuItems()->count() }}</td>
                         <td class="px-6 py-4 flex gap-3">
-                            <button wire:click="edit({{ $category->id }})" class="text-blue-600 hover:text-blue-700">Edit</button>
-                            <button wire:click="delete({{ $category->id }})" wire:confirm="Yakin ingin menghapus kategori ini?" class="text-red-600 hover:text-red-700">Hapus</button>
+                            <button wire:click="edit({{ $category->id }})" class="px-2 py-1 rounded bg-blue-100 text-xs font-bold text-blue-600 hover:text-blue-700">Edit</button>
+                            <button wire:click="delete({{ $category->id }})" wire:confirm="Yakin ingin menghapus kategori ini?" class="px-2 py-1 rounded bg-red-100 text-xs font-bold text-red-600 hover:text-red-700">Hapus</button>
                         </td>
                     </tr>
                 @empty

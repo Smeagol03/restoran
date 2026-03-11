@@ -25,18 +25,21 @@ class DatabaseSeeder extends Seeder
             'role' => UserRole::Admin,
         ]);
 
-        $categories = [
-            ['name' => 'Main Course', 'slug' => 'main-course', 'icon' => 'utensils'],
-            ['name' => 'Drinks', 'slug' => 'drinks', 'icon' => 'coffee'],
-            ['name' => 'Snacks', 'slug' => 'snacks', 'icon' => 'pizza'],
-            ['name' => 'Desserts', 'slug' => 'desserts', 'icon' => 'ice-cream'],
-        ];
+        // Data dummy HANYA dijalankan di environment lokal/development
+        if (app()->environment('local', 'testing', 'development')) {
+            $categories = [
+                ['name' => 'Main Course', 'slug' => 'main-course', 'icon' => 'utensils'],
+                ['name' => 'Drinks', 'slug' => 'drinks', 'icon' => 'coffee'],
+                ['name' => 'Snacks', 'slug' => 'snacks', 'icon' => 'pizza'],
+                ['name' => 'Desserts', 'slug' => 'desserts', 'icon' => 'ice-cream'],
+            ];
 
-        foreach ($categories as $cat) {
-            $category = Category::create($cat);
-            MenuItem::factory(10)->create(['category_id' => $category->id]);
+            foreach ($categories as $cat) {
+                $category = Category::create($cat);
+                MenuItem::factory(10)->create(['category_id' => $category->id]);
+            }
+
+            Table::factory(15)->create();
         }
-
-        Table::factory(15)->create();
     }
 }

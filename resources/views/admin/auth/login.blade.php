@@ -18,34 +18,36 @@
         <div class="bg-white dark:bg-zinc-900 py-8 px-4 shadow sm:rounded-xl sm:px-10 border border-zinc-200 dark:border-zinc-800">
             <form class="space-y-6" action="{{ route('admin.login') }}" method="POST">
                 @csrf
-                <div>
-                    <label for="email" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Email address</label>
-                    <div class="mt-1">
-                        <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}" class="block w-full appearance-none rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 placeholder-zinc-400 dark:bg-zinc-800 dark:text-white shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 sm:text-sm">
-                    </div>
-                    @error('email')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-input 
+                    label="Email address" 
+                    name="email" 
+                    type="email" 
+                    autocomplete="email" 
+                    required 
+                    :value="old('email')" 
+                    placeholder="name@company.com"
+                />
 
-                <div>
-                    <label for="password" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Password</label>
-                    <div class="mt-1">
-                        <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full appearance-none rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 placeholder-zinc-400 dark:bg-zinc-800 dark:text-white shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 sm:text-sm">
-                    </div>
-                </div>
+                <x-input 
+                    label="Password" 
+                    name="password" 
+                    type="password" 
+                    autocomplete="current-password" 
+                    required 
+                    placeholder="••••••••"
+                />
 
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <input id="remember" name="remember" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-orange-600 focus:ring-orange-500">
-                        <label for="remember" class="ml-2 block text-sm text-zinc-900 dark:text-zinc-300">Remember me</label>
+                        <x-checkbox id="remember" name="remember" class="h-4 w-4 rounded border-zinc-300 text-orange-600 focus:ring-orange-500" />
+                        <x-label for="remember" value="Remember me" class="ml-2 mb-0" />
                     </div>
                 </div>
 
                 <div>
-                    <button type="submit" class="flex w-full justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+                    <x-button type="submit" variant="primary" class="w-full justify-center py-2.5">
                         Sign in
-                    </button>
+                    </x-button>
                 </div>
             </form>
         </div>

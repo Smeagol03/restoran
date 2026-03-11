@@ -11,8 +11,14 @@ class Categories extends Component
 {
     use WithPagination;
 
-    public $name, $description, $categoryId;
+    public $name;
+
+    public $description;
+
+    public $categoryId;
+
     public bool $isEditing = false;
+
     public bool $isCreating = false;
 
     protected $rules = [
@@ -90,7 +96,7 @@ class Categories extends Component
     public function render(): \Illuminate\View\View
     {
         return view('livewire.admin.categories', [
-            'categories' => Category::latest()->paginate(10)
+            'categories' => Category::latest()->paginate(10),
         ]);
     }
 }

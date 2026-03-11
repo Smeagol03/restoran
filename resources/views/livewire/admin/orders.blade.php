@@ -5,14 +5,19 @@
             <p class="text-zinc-500 dark:text-zinc-400">Kelola dan pantau status pesanan pelanggan.</p>
         </div>
 
-        <div class="flex items-center gap-3">
-            <span class="text-sm font-medium text-zinc-500">Filter Status:</span>
-            <select wire:model.live="statusFilter" class="rounded-lg border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-sm focus:ring-orange-500">
-                <option value="">Semua Status</option>
-                @foreach($statuses as $status)
-                    <option value="{{ $status->value }}">{{ $status->label() }}</option>
-                @endforeach
-            </select>
+        <div class="flex flex-col md:flex-row items-center gap-3">
+            <div class="w-full md:w-64">
+                <x-input type="text" wire:model.live="search" placeholder="Cari nomor pesanan atau nama..." />
+            </div>
+
+            <div class="flex items-center gap-3">
+                <x-select wire:model.live="statusFilter" id="statusFilter" class="w-40 py-2 text-xs font-bold uppercase">
+                    <option value="">Semua</option>
+                    @foreach($statuses as $status)
+                        <option value="{{ $status->value }}">{{ $status->label() }}</option>
+                    @endforeach
+                </x-select>
+            </div>
         </div>
     </div>
 
@@ -53,7 +58,7 @@
                                     <span class="ml-1 text-xs font-bold text-zinc-600">Meja {{ $order->table->number }}</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 font-bold text-emerald-600">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
+                            <td class="px-6 py-4 font-bold text-emerald-600"><x-currency :value="$order->total" /></td>
                             <td class="px-6 py-4">
                                 <select wire:change="updateStatus({{ $order->id }}, $event.target.value)" class="text-xs font-bold uppercase rounded-lg border-zinc-200 dark:border-zinc-700 bg-{{ $order->status->color() }}-50 text-{{ $order->status->color() }}-700 dark:bg-{{ $order->status->color() }}-900/30 dark:text-{{ $order->status->color() }}-400 focus:ring-0">
                                     @foreach($statuses as $status)
@@ -64,10 +69,13 @@
                                 </select>
                             </td>
                             <td class="px-6 py-4 text-zinc-500 whitespace-nowrap">{{ $order->created_at->format('d M, H:i') }}</td>
-                            <td class="px-6 py-4">
-                                <button wire:click="showDetails({{ $order->id }})" class="text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
+                            <td class="px-6 py-4 flex items-center gap-2">
+                                <button wire:click="showDetails({{ $order->id }})" class="text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" title="Lihat Detail">
                                     <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                 </button>
+                                <a href="{{ route('admin.orders.receipt', $order) }}" target="_blank" class="text-zinc-400 hover:text-orange-600 transition-colors" title="Cetak Struk">
+                                    <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                                </a>
                             </td>
                         </tr>
                     @empty
@@ -121,9 +129,9 @@
                                 <div class="flex justify-between items-center text-sm border-b border-zinc-100 dark:border-zinc-800 pb-2">
                                     <div class="flex-1">
                                         <p class="font-medium text-zinc-900 dark:text-white">{{ $item->menuItem->name }}</p>
-                                        <p class="text-xs text-zinc-500">{{ $item->quantity }} x Rp {{ number_format($item->unit_price, 0, ',', '.') }}</p>
+                                        <p class="text-xs text-zinc-500">{{ $item->quantity }} x <x-currency :value="$item->unit_price" /></p>
                                     </div>
-                                    <p class="font-bold text-zinc-900 dark:text-white">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
+                                    <p class="font-bold text-zinc-900 dark:text-white"><x-currency :value="$item->subtotal" /></p>
                                 </div>
                             @endforeach
                         </div>
@@ -138,7 +146,7 @@
 
                     <div class="flex justify-between items-center pt-4 border-t border-zinc-200 dark:border-zinc-800">
                         <span class="text-base font-bold text-zinc-900 dark:text-white">Total</span>
-                        <span class="text-xl font-black text-emerald-600">Rp {{ number_format($selectedOrder->total, 0, ',', '.') }}</span>
+                        <span class="text-xl font-black text-emerald-600"><x-currency :value="$selectedOrder->total" /></span>
                     </div>
                 </div>
 

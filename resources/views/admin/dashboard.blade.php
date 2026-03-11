@@ -2,12 +2,28 @@
     use App\Models\Order;
     use App\Models\MenuItem;
     use App\Models\Category;
+    use Carbon\Carbon;
 
     $totalOrders = Order::count();
     $pendingOrders = Order::where('status', 'pending')->count();
     $totalRevenue = Order::where('status', 'done')->sum('total');
     $totalMenu = MenuItem::count();
-    $recentOrders = Order::latest()->take(5)->get();
+    $recentOrders = Order::with(['user', 'table'])->latest()->take(5)->get();
+
+    // Data Penjualan 7 Hari Terakhir
+    $salesLabels = [];
+    $salesData = [];
+    
+    for ($i = 6; $i >= 0; $i--) {
+        $date = Carbon::today()->subDays($i);
+        $salesLabels[] = $date->translatedFormat('d M');
+        
+        $dailyTotal = Order::where('status', 'done')
+            ->whereDate('created_at', $date)
+            ->sum('total');
+            
+        $salesData[] = $dailyTotal;
+    }
 @endphp
 
 <x-layouts.admin>
@@ -34,6 +50,17 @@
             <div class="bg-white dark:bg-zinc-900 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800">
                 <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Menu Tersedia</p>
                 <p class="text-3xl font-bold text-zinc-900 dark:text-white mt-2">{{ $totalMenu }}</p>
+            </div>
+        </div>
+
+        {{-- Sales Chart --}}
+        <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6">
+            <div class="mb-4">
+                <h2 class="text-lg font-bold text-zinc-900 dark:text-white">Tren Penjualan (7 Hari Terakhir)</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">Total pendapatan harian dari pesanan selesai.</p>
+            </div>
+            <div class="relative h-[300px] w-full">
+                <canvas id="salesChart"></canvas>
             </div>
         </div>
 
@@ -83,4 +110,74 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            
+            const formatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            });
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: @json($salesLabels),
+                    datasets: [{
+                        label: 'Pendapatan (Rp)',
+                        data: @json($salesData),
+                        borderColor: '#ea580c', // orange-600
+                        backgroundColor: 'rgba(234, 88, 12, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#ea580c',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return formatter.format(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rp ' + (value / 1000) + 'k';
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(161, 161, 170, 0.1)' // zinc-400 with opacity
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    @endpush
 </x-layouts.admin>

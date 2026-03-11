@@ -39,6 +39,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
     Route::get('/categories', function () {
         return view('admin.categories.index');
     })->name('categories.index');
+    Route::get('/tables', function () {
+        return view('admin.tables.index');
+    })->name('tables.index');
+    Route::view('/settings', 'admin.settings.index')->name('settings.index');
+    Route::get('/orders/{order}/receipt', function (\App\Models\Order $order) {
+        return view('admin.orders.receipt', ['order' => $order->load('items.menuItem', 'table', 'user')]);
+    })->name('orders.receipt');
 });
 
 require __DIR__.'/settings.php';

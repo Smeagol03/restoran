@@ -16,6 +16,14 @@ class CheckoutForm extends Component
 
     public ?string $notes = null;
 
+    public function mount()
+    {
+        if (session()->has('table_id')) {
+            $this->table_id = session('table_id');
+            $this->type = \App\Enums\OrderType::DineIn->value;
+        }
+    }
+
     public function rules(): array
     {
         return [

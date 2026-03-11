@@ -4,11 +4,12 @@
     'type' => 'text',
     'placeholder' => '',
     'value' => null,
+    'error' => null,
 ])
 
 <div>
     @if($label)
-        <label for="{{ $name }}" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">{{ $label }}</label>
+        <x-label :for="$name" :value="$label" />
     @endif
     <input
         type="{{ $type }}"
@@ -16,9 +17,9 @@
         id="{{ $name }}"
         value="{{ old($name, $value) }}"
         placeholder="{{ $placeholder }}"
-        {{ $attributes->merge(['class' => 'block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 shadow-sm focus:border-zinc-500 focus:ring-2 focus:ring-zinc-500/20 focus:outline-none dark:border-zinc-600 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-500 dark:focus:border-zinc-400 dark:focus:ring-zinc-400/20 transition-colors']) }}
+        {{ $attributes->merge(['class' => 'block w-full rounded-xl border ' . ($errors->has($name) || $error ? 'border-red-300 dark:border-red-900/50' : 'border-zinc-200 dark:border-zinc-800') . ' bg-zinc-50/50 dark:bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 shadow-sm focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 focus:outline-none dark:text-white dark:placeholder-zinc-500 transition-all']) }}
     />
     @error($name)
-        <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+        <x-error :messages="$message" />
     @enderror
 </div>

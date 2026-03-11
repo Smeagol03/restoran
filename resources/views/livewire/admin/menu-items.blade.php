@@ -13,67 +13,64 @@
     @endif
 
     @if($isCreating || $isEditing)
-        <div class="bg-white dark:bg-zinc-900 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800">
-            <h2 class="text-lg font-bold mb-4 text-zinc-900 dark:text-white">
-                {{ $isEditing ? 'Edit Menu' : 'Tambah Menu Baru' }}
-            </h2>
-            <form wire:submit.prevent="{{ $isEditing ? 'update' : 'store' }}" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <x-modal :open="$isCreating || $isEditing" title="{{ $isEditing ? 'Edit Menu' : 'Tambah Menu Baru' }}" close="cancel">
+            <form wire:submit.prevent="{{ $isEditing ? 'update' : 'store' }}" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Nama Menu</label>
-                        <input type="text" wire:model="name" class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-orange-500">
-                        @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <x-label for="name" value="Nama Menu" />
+                        <x-input type="text" id="name" wire:model="name" placeholder="Contoh: Nasi Goreng Spesial" />
+                        <x-error :messages="$errors->get('name')" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Kategori</label>
-                        <select wire:model="category_id" class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-orange-500">
+                        <x-label for="category_id" value="Kategori" />
+                        <x-select id="category_id" wire:model="category_id">
                             <option value="">-- Pilih Kategori --</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
-                        </select>
-                        @error('category_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </x-select>
+                        <x-error :messages="$errors->get('category_id')" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Harga (Rp)</label>
-                        <input type="number" wire:model="price" class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-orange-500">
-                        @error('price') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <x-money-input label="Harga (Rp)" name="price" wire:model="price" placeholder="Contoh: 25.000" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Waktu Persiapan (Menit)</label>
-                        <input type="number" wire:model="preparation_time" class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-orange-500">
-                        @error('preparation_time') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <x-label for="preparation_time" value="Waktu Persiapan (Menit)" />
+                        <x-input type="number" id="preparation_time" wire:model="preparation_time" placeholder="Contoh: 15" />
+                        <x-error :messages="$errors->get('preparation_time')" />
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Deskripsi</label>
-                    <textarea wire:model="description" rows="3" class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-orange-500"></textarea>
-                    @error('description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    <x-label for="description" value="Deskripsi" />
+                    <x-textarea id="description" wire:model="description" rows="3" placeholder="Jelaskan detail menu ini..."></x-textarea>
+                    <x-error :messages="$errors->get('description')" />
                 </div>
 
-                <div class="flex gap-6">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" wire:model="is_available" class="rounded border-zinc-300 text-orange-600 focus:ring-orange-500">
-                        <span class="text-sm text-zinc-700 dark:text-zinc-300">Tersedia</span>
+                <div class="flex flex-wrap gap-8 py-2">
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <x-checkbox wire:model="is_available" class="size-5 focus:ring-offset-0" />
+                        <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300 group-hover:text-orange-600 transition-colors">Tersedia untuk Dipesan</span>
                     </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" wire:model="is_featured" class="rounded border-zinc-300 text-orange-600 focus:ring-orange-500">
-                        <span class="text-sm text-zinc-700 dark:text-zinc-300">Menu Unggulan</span>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <x-checkbox wire:model="is_featured" class="size-5 focus:ring-offset-0" />
+                        <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300 group-hover:text-orange-600 transition-colors">Muncul sebagai Unggulan</span>
                     </label>
                 </div>
 
-                <div class="flex gap-3">
-                    <x-button type="submit" variant="primary">Simpan</x-button>
+                <div class="flex gap-3 pt-2">
+                    <x-button type="submit" variant="primary">Simpan Menu</x-button>
                     <x-button type="button" variant="ghost" wire:click="cancel">Batal</x-button>
                 </div>
             </form>
-        </div>
+        </x-modal>
     @endif
 
-    <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-        <div class="p-4 border-b border-zinc-200 dark:border-zinc-800">
-            <input type="text" wire:model.live="search" placeholder="Cari menu..." class="w-full md:w-64 rounded-lg border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-orange-500">
+    <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+        <div class="p-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/30">
+            <div class="max-w-sm">
+                <x-input type="text" wire:model.live="search" placeholder="Cari nama menu atau kategori..." />
+            </div>
         </div>
         <table class="w-full text-left text-sm">
             <thead class="bg-zinc-50 dark:bg-zinc-800/50 text-zinc-500 dark:text-zinc-400 uppercase text-[10px] font-bold tracking-wider">
@@ -95,15 +92,15 @@
                             @endif
                         </td>
                         <td class="px-6 py-4">{{ $item->category->name }}</td>
-                        <td class="px-6 py-4 font-medium">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 font-medium"><x-currency :value="$item->price" /></td>
                         <td class="px-6 py-4">
                             <button wire:click="toggleAvailability({{ $item->id }})" class="px-2 py-1 rounded text-xs font-bold {{ $item->is_available ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700' }}">
                                 {{ $item->is_available ? 'Tersedia' : 'Habis' }}
                             </button>
                         </td>
                         <td class="px-6 py-4 flex gap-3">
-                            <button wire:click="edit({{ $item->id }})" class="text-blue-600 hover:text-blue-700">Edit</button>
-                            <button wire:click="delete({{ $item->id }})" wire:confirm="Hapus menu ini?" class="text-red-600 hover:text-red-700">Hapus</button>
+                            <button wire:click="edit({{ $item->id }})" class="px-2 py-1 rounded bg-blue-100 text-xs font-bold text-blue-600 hover:text-blue-700">Edit</button>
+                            <button wire:click="delete({{ $item->id }})" wire:confirm="Hapus menu ini?" class="px-2 py-1 rounded bg-red-100 text-xs font-bold text-red-600 hover:text-red-700">Hapus</button>
                         </td>
                     </tr>
                 @empty

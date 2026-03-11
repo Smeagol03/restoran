@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\MenuItem;
 use App\Models\Category;
+use App\Models\MenuItem;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,11 +12,26 @@ class MenuItems extends Component
 {
     use WithPagination;
 
-    public $name, $category_id, $price, $description, $preparation_time, $menuId;
+    public $name;
+
+    public $category_id;
+
+    public $price;
+
+    public $description;
+
+    public $preparation_time;
+
+    public $menuId;
+
     public bool $is_available = true;
+
     public bool $is_featured = false;
+
     public bool $isEditing = false;
+
     public bool $isCreating = false;
+
     public string $search = '';
 
     protected $rules = [
@@ -98,7 +113,7 @@ class MenuItems extends Component
     public function toggleAvailability(int $id): void
     {
         $menu = MenuItem::find($id);
-        $menu->update(['is_available' => !$menu->is_available]);
+        $menu->update(['is_available' => ! $menu->is_available]);
     }
 
     public function delete(int $id): void
@@ -129,11 +144,11 @@ class MenuItems extends Component
     public function render(): \Illuminate\View\View
     {
         return view('livewire.admin.menu-items', [
-            'menuItems' => MenuItem::where('name', 'like', '%' . $this->search . '%')
+            'menuItems' => MenuItem::where('name', 'like', '%'.$this->search.'%')
                 ->with('category')
                 ->latest()
                 ->paginate(10),
-            'categories' => Category::all()
+            'categories' => Category::all(),
         ]);
     }
 }

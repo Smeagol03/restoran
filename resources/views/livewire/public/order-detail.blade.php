@@ -107,11 +107,11 @@
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $item->menuItem->name }}</p>
                         <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-                            {{ $item->quantity }} × Rp {{ number_format($item->unit_price, 0, ',', '.') }}
+                            {{ $item->quantity }} × <x-currency :value="$item->unit_price" />
                         </p>
                     </div>
                     <p class="text-sm font-bold text-zinc-900 dark:text-white shrink-0">
-                        Rp {{ number_format($item->subtotal, 0, ',', '.') }}
+                        <x-currency :value="$item->subtotal" />
                     </p>
                 </div>
             @endforeach
@@ -132,23 +132,23 @@
         <div class="space-y-3 text-sm">
             <div class="flex justify-between text-zinc-600 dark:text-zinc-400">
                 <span>Subtotal</span>
-                <span>Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
+                <span><x-currency :value="$order->subtotal" /></span>
             </div>
             @if($order->delivery_fee > 0)
                 <div class="flex justify-between text-zinc-600 dark:text-zinc-400">
                     <span>Ongkos Kirim</span>
-                    <span>Rp {{ number_format($order->delivery_fee, 0, ',', '.') }}</span>
+                    <span><x-currency :value="$order->delivery_fee" /></span>
                 </div>
             @endif
             @if($order->discount_amount > 0)
                 <div class="flex justify-between text-green-600">
                     <span>Diskon</span>
-                    <span>-Rp {{ number_format($order->discount_amount, 0, ',', '.') }}</span>
+                    <span>-<x-currency :value="$order->discount_amount" /></span>
                 </div>
             @endif
             <div class="flex justify-between items-center pt-3 border-t border-zinc-200 dark:border-zinc-700">
                 <span class="text-base font-bold text-zinc-900 dark:text-white">Total</span>
-                <span class="text-xl font-black text-orange-600">Rp {{ number_format($order->total, 0, ',', '.') }}</span>
+                <span class="text-xl font-black text-orange-600"><x-currency :value="$order->total" /></span>
             </div>
         </div>
 

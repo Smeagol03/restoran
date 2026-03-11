@@ -58,7 +58,7 @@
 
                         {{-- Right: Total + Arrow --}}
                         <div class="text-right flex flex-col items-end gap-2 shrink-0">
-                            <p class="text-lg font-black text-zinc-900 dark:text-white">Rp {{ number_format($order->total, 0, ',', '.') }}</p>
+                            <p class="text-lg font-black text-zinc-900 dark:text-white"><x-currency :value="$order->total" /></p>
                             <span class="text-zinc-300 dark:text-zinc-600 group-hover:text-orange-500 transition-colors">
                                 <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                             </span>

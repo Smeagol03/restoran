@@ -39,7 +39,7 @@
                         <li class="flex items-center p-4 gap-3">
                             <div class="flex-1">
                                 <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $item['name'] }}</h4>
-                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Rp {{ number_format($item['unit_price'], 0, ',', '.') }}</p>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400"><x-currency :value="$item['unit_price']" /></p>
                             </div>
                             <div class="flex items-center gap-2">
                                 <button type="button" wire:click="decrement({{ $id }})" class="p-1 text-zinc-400 hover:text-orange-600 transition-colors">
@@ -76,7 +76,7 @@
             <div class="p-4 bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-700">
                 <div class="flex items-center justify-between mb-4">
                     <span class="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase">Subtotal</span>
-                    <span class="text-base font-black text-zinc-900 dark:text-white">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                    <span class="text-base font-black text-zinc-900 dark:text-white"><x-currency :value="$subtotal" /></span>
                 </div>
                 <a
                     href="{{ route('checkout') }}"

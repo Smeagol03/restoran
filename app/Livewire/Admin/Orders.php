@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Order;
 use App\Enums\OrderStatus;
+use App\Models\Order;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,9 +12,17 @@ class Orders extends Component
     use WithPagination;
 
     public string $statusFilter = '';
+
+    public string $search = '';
+
     public ?int $selectedOrderId = null;
 
     public function updatingStatusFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
@@ -42,6 +50,16 @@ class Orders extends Component
 
         if ($this->statusFilter) {
             $query->where('status', $this->statusFilter);
+        }
+
+        if ($this->search) {
+            $query->where(function ($q) {
+                $q->where('order_number', 'like', '%'.$this->search.'%')
+                    ->orWhereHas('user', function ($uq) {
+                        $uq->where('name', 'like', '%'.$this->search.'%')
+                            ->orWhere('email', 'like', '%'.$this->search.'%');
+                    });
+            });
         }
 
         return view('livewire.admin.orders', [

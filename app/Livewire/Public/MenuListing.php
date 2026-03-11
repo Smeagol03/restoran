@@ -9,6 +9,7 @@ use Livewire\Component;
 class MenuListing extends Component
 {
     public string $search = '';
+
     public string $activeCategory = 'all';
 
     public function updatingSearch(): void
@@ -31,8 +32,8 @@ class MenuListing extends Component
         $query = MenuItem::where('is_available', true)->with('category');
 
         if ($this->search) {
-            $query->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('description', 'like', '%' . $this->search . '%');
+            $query->where('name', 'like', '%'.$this->search.'%')
+                ->orWhere('description', 'like', '%'.$this->search.'%');
         } elseif ($this->activeCategory !== 'all') {
             $query->whereHas('category', function ($q) {
                 $querySlug = $this->activeCategory;

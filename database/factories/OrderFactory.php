@@ -20,7 +20,7 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
-        $subtotal = fake()->randomFloat(2, 20000, 500000);
+        $subtotal = fake()->numberBetween(20000, 500000);
         $deliveryFee = 0;
         $discountAmount = 0;
 

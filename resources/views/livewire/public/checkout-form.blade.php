@@ -36,32 +36,27 @@
             {{-- Table Selection (Dine In only) --}}
             @if($type === 'dine_in')
                 <div>
-                    <label for="table_id" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Pilih Nomor Meja</label>
-                    <select
-                        wire:model="table_id"
-                        id="table_id"
-                        class="w-full rounded-lg border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:ring-orange-500 focus:border-orange-500"
-                    >
+                    <x-label for="table_id" value="Pilih Nomor Meja" />
+                    <x-select wire:model="table_id" id="table_id">
                         <option value="">-- Pilih Meja --</option>
                         @foreach($tables as $table)
                             <option value="{{ $table->id }}">Meja {{ $table->number }} (Kapasitas: {{ $table->capacity }})</option>
                         @endforeach
-                    </select>
-                    @error('table_id') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                    </x-select>
+                    <x-error :messages="$errors->get('table_id')" />
                 </div>
             @endif
 
             {{-- Notes --}}
             <div>
-                <label for="notes" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Catatan Tambahan (Opsional)</label>
-                <textarea
+                <x-label for="notes" value="Catatan Tambahan (Opsional)" />
+                <x-textarea
                     wire:model="notes"
                     id="notes"
                     rows="3"
                     placeholder="Contoh: Jangan terlalu pedas, tambah sendok, dll."
-                    class="w-full rounded-lg border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:ring-orange-500 focus:border-orange-500"
-                ></textarea>
-                @error('notes') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                ></x-textarea>
+                <x-error :messages="$errors->get('notes')" />
             </div>
 
             @error('cart') <div class="p-3 bg-red-50 text-red-600 rounded-lg text-sm">{{ $message }}</div> @enderror
