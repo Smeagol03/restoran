@@ -25,7 +25,7 @@ class CheckoutForm extends Component
         ];
     }
 
-    public function checkout(CartService $cart, OrderService $orderService): void
+    public function checkout(CartService $cart, OrderService $orderService)
     {
         $this->validate();
 
@@ -49,7 +49,10 @@ class CheckoutForm extends Component
 
         $this->dispatch('cart-updated');
 
-        $this->redirect($whatsappUrl, navigate: false);
+        // Membuka WA di tab baru dan mengarahkan halaman saat ini ke Home
+        $this->js("window.open('$whatsappUrl', '_blank')");
+        
+        return redirect()->route('home');
     }
 
     public function render(): \Illuminate\View\View

@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8" x-data="{ checkoutSuccess: false }" @cart-updated.window="checkoutSuccess = true">
     {{-- Form Section --}}
     <div class="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 p-6 shadow-sm">
         <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-6">Informasi Pesanan</h2>
