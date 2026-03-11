@@ -49,7 +49,13 @@
                     </button>
                     <div class="flex items-center gap-4 ml-auto">
                         <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ auth()->user()->name }}</span>
-                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">{{ auth()->user()->role }}</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">{{ auth()->user()->role->label() }}</span>
+                        <form method="POST" action="{{ route('admin.logout') }}" class="ml-2">
+                            @csrf
+                            <button type="submit" class="p-2 text-zinc-500 hover:text-red-600 transition-colors" title="Logout">
+                                <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                            </button>
+                        </form>
                     </div>
                 </header>
 

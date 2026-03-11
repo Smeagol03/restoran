@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\Category;
 use App\Models\MenuItem;
 use App\Models\Table;
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin Restaurant',
             'email' => 'admin@restoran.com',
             'password' => bcrypt('password'),
+            'role' => UserRole::Admin,
         ]);
 
         $categories = [

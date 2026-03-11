@@ -51,8 +51,8 @@ class CheckoutForm extends Component
 
         // Membuka WA di tab baru dan mengarahkan halaman saat ini ke Home
         $this->js("window.open('$whatsappUrl', '_blank')");
-        
-        return redirect()->route('home');
+
+        return redirect()->route('dashboard');
     }
 
     public function render(): \Illuminate\View\View

@@ -43,9 +43,9 @@
                                 <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 rounded-lg border border-zinc-200 bg-white py-1 shadow-lg dark:border-zinc-700 dark:bg-zinc-800" style="display: none;">
                                     <div class="px-4 py-2 border-b border-zinc-100 dark:border-zinc-700">
                                         <p class="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Role</p>
-                                        <p class="text-sm font-bold text-orange-600 uppercase">{{ auth()->user()->role }}</p>
+                                        <p class="text-sm font-bold text-orange-600 uppercase">{{ auth()->user()->role->label() }}</p>
                                     </div>
-                                    @if(auth()->user()->role === 'admin' || auth()->user()->role === 'kasir')
+                                    @if(auth()->user()->isStaff())
                                         <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-700" wire:navigate>
                                             {{ __('Admin Panel') }}
                                         </a>

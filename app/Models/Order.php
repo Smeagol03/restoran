@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\OrderStatus;
 use App\Enums\OrderType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -52,6 +53,8 @@ class Order extends Model
         ];
     }
 
+    // ── Relationships ──────────────────────────────────────
+
     /**
      * Get the user that placed the order.
      */
@@ -74,5 +77,53 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    // ── Query Scopes ───────────────────────────────────────
+
+    /**
+     * Scope orders to a specific user.
+     */
+    public function scopeForUser(Builder $query, int $userId): Builder
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    /**
+     * Scope to only active (in-progress) orders.
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->whereNotIn('status', [
+            OrderStatus::Done,
+            OrderStatus::Cancelled,
+            OrderStatus::Failed,
+        ]);
+    }
+
+    /**
+     * Scope to only completed (terminal) orders.
+     */
+    public function scopeCompleted(Builder $query): Builder
+    {
+        return $query->whereIn('status', [
+            OrderStatus::Done,
+            OrderStatus::Cancelled,
+            OrderStatus::Failed,
+        ]);
+    }
+
+    // ── Accessors ──────────────────────────────────────────
+
+    /**
+     * Get the current position in the status timeline (0-indexed).
+     */
+    public function getStatusTimelinePositionAttribute(): int
+    {
+        $steps = OrderStatus::timelineSteps();
+
+        $index = array_search($this->status, $steps);
+
+        return $index !== false ? $index : -1;
     }
 }
