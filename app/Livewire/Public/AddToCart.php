@@ -12,6 +12,7 @@ class AddToCart extends Component
     public function add(CartService $cart): void
     {
         $cart->add($this->menuItemId);
+        $this->dispatch('item-added', id: $this->menuItemId);
         $this->dispatch('cart-updated');
     }
 

@@ -1,8 +1,9 @@
-<div class="relative inline-block" x-data="{ open: false }">
+<div class="relative inline-block" x-data="{ open: false, animating: false }" @item-added.window="animating = true; setTimeout(() => animating = false, 300)">
     <button
         type="button"
         x-on:click="open = !open"
-        class="relative p-2 text-zinc-600 transition-colors hover:text-orange-600 focus:outline-none dark:text-zinc-400"
+        :class="animating ? 'text-orange-600 scale-125' : 'text-zinc-600 dark:text-zinc-400'"
+        class="relative p-2 transition-all duration-300 hover:text-orange-600 focus:outline-none"
     >
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -86,5 +87,31 @@
                 </a>
             </div>
         @endif
+    </div>
+
+    {{-- Toast Notification --}}
+    <div
+        x-data="{ show: false, message: '' }"
+        @item-added.window="
+            message = 'Item ditambahkan ke keranjang';
+            show = true;
+            setTimeout(() => show = false, 3000);
+        "
+        x-show="show"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 -translate-y-4 sm:scale-95"
+        x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+        x-transition:leave-end="opacity-0 -translate-y-4 sm:scale-95"
+        class="fixed top-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-zinc-900 border border-zinc-800 text-white dark:bg-white dark:text-zinc-900 px-4 py-3 rounded-xl shadow-2xl"
+        style="display: none;"
+    >
+        <div class="shrink-0 bg-emerald-500/20 text-emerald-500 dark:text-emerald-600 rounded-full p-1">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+        <p class="text-sm font-medium" x-text="message"></p>
     </div>
 </div>
