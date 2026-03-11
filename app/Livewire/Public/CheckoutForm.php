@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Livewire\Public;
+
+use App\Enums\OrderType;
+use App\Models\Table;
+use App\Services\CartService;
+use App\Services\OrderService;
+use Livewire\Component;
+
+class CheckoutForm extends Component
+{
+    public string $type = 'dine_in';
+
+    public ?int $table_id = null;
+
+    public ?string $notes = null;
+
+    public function rules(): array
+    {
+        return [
+            'type' => ['required', 'string', 'in:'.OrderType::DineIn->value.','.OrderType::Delivery->value],
+            'table_id' => ['required_if:type,'.OrderType::DineIn->value, 'nullable', 'exists:tables,id'],
+            'notes' => ['nullable', 'string', 'max:500'],
+        ];
+    }
+
+    public function checkout(CartService $cart, OrderService $orderService): void
+    {
+        $this->validate();
+
+        $items = $cart->getItems()->toArray();
+
+        if (empty($items)) {
+            $this->addError('cart', 'Keranjang belanja Anda kosong.');
+
+            return;
+        }
+
+        $order = $orderService->createFromCart([
+            'type' => $this->type,
+            'table_id' => $this->table_id,
+            'notes' => $this->notes,
+        ], $items);
+
+        $whatsappUrl = $orderService->getWhatsAppUrl($order);
+
+        $cart->clear();
+
+        $this->dispatch('cart-updated');
+
+        $this->redirect($whatsappUrl, navigate: false);
+    }
+
+    public function render(): \Illuminate\View\View
+    {
+        return view('livewire.public.checkout-form', [
+            'tables' => Table::where('status', 'available')->get(),
+        ]);
+    }
+}

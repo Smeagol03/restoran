@@ -10,6 +10,7 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::view('/checkout', 'public.checkout')->name('checkout');
 });
 
 require __DIR__.'/settings.php';

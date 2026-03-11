@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
+        @livewireStyles
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-900 font-sans antialiased">
         {{-- Public Header/Navbar --}}
@@ -31,6 +32,8 @@
 
                     {{-- Right Side --}}
                     <div class="flex items-center gap-3">
+                        <livewire:public.cart />
+                        
                         @auth
                             <div x-data="{ open: false }" class="relative">
                                 <button @click="open = !open" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors">
