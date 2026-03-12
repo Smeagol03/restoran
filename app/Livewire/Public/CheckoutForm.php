@@ -66,7 +66,7 @@ class CheckoutForm extends Component
     public function render(): \Illuminate\View\View
     {
         return view('livewire.public.checkout-form', [
-            'tables' => Table::where('status', 'available')->get(),
+            'tables' => \App\Models\Table::orderBy('number')->get(),
         ]);
     }
 }

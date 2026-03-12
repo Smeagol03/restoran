@@ -69,7 +69,7 @@
     <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
         <div class="p-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/30">
             <div class="max-w-sm">
-                <x-input type="text" wire:model.live="search" placeholder="Cari nama menu atau kategori..." />
+                <x-input type="text" wire:model.live.debounce.300ms="search" placeholder="Cari nama menu atau kategori..." />
             </div>
         </div>
         <table class="w-full text-left text-sm">

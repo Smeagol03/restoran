@@ -21,10 +21,17 @@ class Categories extends Component
 
     public bool $isCreating = false;
 
+    public string $search = '';
+
     protected $rules = [
         'name' => 'required|min:3|max:255',
         'description' => 'nullable|max:500',
     ];
+
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
 
     public function create(): void
     {
@@ -96,7 +103,9 @@ class Categories extends Component
     public function render(): \Illuminate\View\View
     {
         return view('livewire.admin.categories', [
-            'categories' => Category::latest()->paginate(10),
+            'categories' => Category::where('name', 'like', '%'.$this->search.'%')
+                ->latest()
+                ->paginate(10),
         ]);
     }
 }

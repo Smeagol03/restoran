@@ -36,14 +36,37 @@
             {{-- Table Selection (Dine In only) --}}
             @if($type === 'dine_in')
                 <div>
-                    <x-label for="table_id" value="Pilih Nomor Meja" />
-                    <x-select wire:model="table_id" id="table_id">
-                        <option value="">-- Pilih Meja --</option>
+                    <x-label value="Pilih Meja Anda" class="mb-3" />
+                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
                         @foreach($tables as $table)
-                            <option value="{{ $table->id }}">Meja {{ $table->number }} (Kapasitas: {{ $table->capacity }})</option>
+                            @php $isOccupied = $table->status === 'occupied'; @endphp
+                            <button 
+                                type="button"
+                                @if($isOccupied) disabled @else wire:click="$set('table_id', {{ $table->id }})" @endif
+                                class="relative aspect-square rounded-xl border-2 flex flex-col items-center justify-center transition-all
+                                {{ $table_id == $table->id 
+                                    ? 'border-orange-500 bg-orange-50 text-orange-600 ring-2 ring-orange-500 ring-offset-2' 
+                                    : ($isOccupied 
+                                        ? 'border-zinc-100 bg-zinc-50 text-zinc-300 cursor-not-allowed opacity-60' 
+                                        : 'border-zinc-100 bg-white text-zinc-600 hover:border-orange-200 hover:bg-orange-50/30 dark:bg-zinc-900 dark:border-zinc-700 dark:text-zinc-400') 
+                                }}"
+                            >
+                                <span class="text-xl font-black">{{ $table->number }}</span>
+                                <span class="text-[8px] font-bold uppercase tracking-tighter">{{ $table->capacity }} Kursi</span>
+
+                                @if($table_id == $table->id)
+                                    <div class="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full p-1 shadow-sm">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                @endif
+
+                                @if($isOccupied)
+                                    <span class="absolute bottom-1 text-[7px] font-black uppercase text-rose-500">Terisi</span>
+                                @endif
+                            </button>
                         @endforeach
-                    </x-select>
-                    <x-error :messages="$errors->get('table_id')" />
+                    </div>
+                    <x-error :messages="$errors->get('table_id')" class="mt-2" />
                 </div>
             @endif
 

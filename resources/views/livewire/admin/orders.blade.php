@@ -4,21 +4,6 @@
             <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">Daftar Pesanan</h1>
             <p class="text-zinc-500 dark:text-zinc-400">Kelola dan pantau status pesanan pelanggan.</p>
         </div>
-
-        <div class="flex flex-col md:flex-row items-center gap-3">
-            <div class="w-full md:w-64">
-                <x-input type="text" wire:model.live="search" placeholder="Cari nomor pesanan atau nama..." />
-            </div>
-
-            <div class="flex items-center gap-3">
-                <x-select wire:model.live="statusFilter" id="statusFilter" class="w-40 py-2 text-xs font-bold uppercase">
-                    <option value="">Semua</option>
-                    @foreach($statuses as $status)
-                        <option value="{{ $status->value }}">{{ $status->label() }}</option>
-                    @endforeach
-                </x-select>
-            </div>
-        </div>
     </div>
 
     @if (session()->has('message'))
@@ -29,6 +14,20 @@
 
     {{-- Order Table --}}
     <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+        <div class="p-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/30 flex flex-col md:flex-row justify-between gap-4">
+            <div class="max-w-sm w-full">
+                <x-input type="text" wire:model.live.debounce.300ms="search" placeholder="Cari nomor pesanan atau nama..." />
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-zinc-500 uppercase">Status:</span>
+                <x-select wire:model.live="statusFilter" id="statusFilter" class="w-40 py-2 text-xs font-bold uppercase">
+                    <option value="">Semua</option>
+                    @foreach($statuses as $status)
+                        <option value="{{ $status->value }}">{{ $status->label() }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+        </div>
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
                 <thead class="bg-zinc-50 dark:bg-zinc-800/50 text-zinc-500 dark:text-zinc-400 uppercase text-[10px] font-bold tracking-wider">
