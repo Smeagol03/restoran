@@ -25,6 +25,7 @@ class OrderService
                 'user_id' => auth()->id(),
                 'order_number' => $this->generateOrderNumber(),
                 'type' => $data['type'],
+                'reservation_time' => $data['reservation_time'] ?? null,
                 'status' => OrderStatus::Pending,
                 'table_id' => $data['table_id'] ?? null,
                 'notes' => $data['notes'] ?? null,
@@ -70,6 +71,10 @@ class OrderService
         $message .= "*Detail Pelanggan:*\n";
         $message .= 'Nama: '.auth()->user()->name."\n";
         $message .= 'Tipe: '.$order->type->label()."\n";
+
+        if ($order->reservation_time) {
+            $message .= 'Waktu: '.$order->reservation_time->format('d M Y H:i')."\n";
+        }
 
         if ($order->type === OrderType::DineIn && $order->table) {
             $message .= 'Meja: '.$order->table->number."\n";

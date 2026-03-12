@@ -29,9 +29,24 @@ class Orders extends Component
 
     public function updateStatus(int $orderId, string $status): void
     {
-        $order = Order::findOrFail($orderId);
-        $order->update(['status' => $status]);
-        session()->flash('message', "Status pesanan {$order->order_number} diperbarui ke {$status}.");
+        $order = Order::with('table')->findOrFail($orderId);
+        $orderStatus = OrderStatus::from($status);
+        
+        $order->update(['status' => $orderStatus]);
+        
+        // Auto update table status for dine-in orders
+        if ($order->type === \App\Enums\OrderType::DineIn && $order->table) {
+            // If terminal status, free up table
+            if ($orderStatus->isTerminal()) {
+                $order->table->update(['status' => 'available']);
+            } 
+            // If active status, occupy table
+            elseif ($orderStatus->isActive()) {
+                $order->table->update(['status' => 'occupied']);
+            }
+        }
+
+        session()->flash('message', "Status pesanan {$order->order_number} diperbarui ke {$orderStatus->label()}.");
     }
 
     public function showDetails(int $orderId): void

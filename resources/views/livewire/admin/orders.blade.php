@@ -50,12 +50,20 @@
                                 <div class="text-[10px] text-zinc-500">{{ $order->user->email ?? '-' }}</div>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase {{ $order->type->value === 'dine_in' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' }}">
-                                    {{ $order->type->label() }}
-                                </span>
-                                @if($order->table)
-                                    <span class="ml-1 text-xs font-bold text-zinc-600">Meja {{ $order->table->number }}</span>
-                                @endif
+                                <div class="mt-1 flex flex-wrap gap-1 items-center">
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase {{ $order->type->value === 'dine_in' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' }}">
+                                        {{ $order->type->label() }}
+                                    </span>
+                                    @if($order->table)
+                                        <span class="text-xs font-bold text-zinc-600 dark:text-zinc-400">Meja {{ $order->table->number }}</span>
+                                    @endif
+                                    @if($order->reservation_time)
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 flex items-center gap-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            Booking: {{ $order->reservation_time->format('d M, H:i') }}
+                                        </span>
+                                    @endif
+                                </div>
                             </td>
                             <td class="px-6 py-4 font-bold text-emerald-600"><x-currency :value="$order->total" /></td>
                             <td class="px-6 py-4">
@@ -117,6 +125,12 @@
                         <div>
                             <p class="text-zinc-500">Tipe / Meja</p>
                             <p class="font-bold text-zinc-900 dark:text-white">{{ $selectedOrder->type->label() }} {{ $selectedOrder->table ? '- Meja '.$selectedOrder->table->number : '' }}</p>
+                            @if($selectedOrder->reservation_time)
+                                <span class="inline-flex mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 items-center gap-1">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Booking: {{ $selectedOrder->reservation_time->format('d M, H:i') }}
+                                </span>
+                            @endif
                         </div>
                     </div>
 

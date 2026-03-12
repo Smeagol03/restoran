@@ -25,6 +25,7 @@ class Order extends Model
         'user_id',
         'order_number',
         'type',
+        'reservation_time',
         'status',
         'table_id',
         'delivery_address_id',
@@ -46,6 +47,7 @@ class Order extends Model
         return [
             'type' => OrderType::class,
             'status' => OrderStatus::class,
+            'reservation_time' => 'datetime',
             'subtotal' => 'decimal:2',
             'discount_amount' => 'decimal:2',
             'delivery_fee' => 'decimal:2',

@@ -121,6 +121,12 @@
             <span>Tipe</span>
             <span>{{ $order->type->label() }}</span>
         </div>
+        @if($order->reservation_time)
+            <div class="info-row">
+                <span>Waktu Booking</span>
+                <span class="font-bold">{{ $order->reservation_time->format('d/m/Y H:i') }}</span>
+            </div>
+        @endif
         @if($order->table)
             <div class="info-row">
                 <span>Meja</span>

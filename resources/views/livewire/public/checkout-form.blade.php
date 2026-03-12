@@ -33,13 +33,25 @@
                 @error('type') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
             </div>
 
-            {{-- Table Selection (Dine In only) --}}
+            {{-- Booking Time & Table Selection (Dine In only) --}}
             @if($type === 'dine_in')
+                <div class="mb-6">
+                    <x-input
+                        type="datetime-local"
+                        wire:model.live="reservation_time"
+                        id="reservation_time"
+                        name="reservation_time"
+                        label="Waktu Pemesanan (Opsional)"
+                        min="{{ now()->format('Y-m-d\TH:i') }}"
+                    />
+                    <p class="text-xs text-zinc-500 mt-1 px-1">Biarkan kosong jika untuk sekarang.</p>
+                </div>
+
                 <div>
                     <x-label value="Pilih Meja Anda" class="mb-3" />
                     <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
                         @foreach($tables as $table)
-                            @php $isOccupied = $table->status === 'occupied'; @endphp
+                            @php $isOccupied = !$table->is_available_now; @endphp
                             <button 
                                 type="button"
                                 @if($isOccupied) disabled @else wire:click="$set('table_id', {{ $table->id }})" @endif

@@ -1,4 +1,11 @@
 <div class="space-y-6">
+    {{-- Flash Message --}}
+    @if (session()->has('message'))
+        <div class="p-4 mb-4 text-sm text-emerald-700 bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 rounded-lg">
+            {{ session('message') }}
+        </div>
+    @endif
+
     {{-- Header & Stats Summary --}}
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
