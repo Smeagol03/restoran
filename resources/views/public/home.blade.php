@@ -26,14 +26,16 @@
         {{-- Hero Image Block --}}
         <div class="max-w-7xl mx-auto px-6 lg:px-8 pb-32">
             <div class="w-full h-[60vh] bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center relative overflow-hidden group">
-                <svg class="size-24 text-zinc-300 dark:text-zinc-800 transition-transform duration-700 group-hover:scale-110" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
-                <div class="absolute bottom-0 left-0 w-full sm:w-auto sm:bottom-12 sm:left-12 flex flex-col sm:flex-row items-stretch sm:items-center bg-white dark:bg-zinc-950 sm:bg-transparent">
-                    <div class="w-full sm:w-20 h-16 sm:h-20 bg-orange-600 flex items-center justify-center text-white font-black text-2xl tracking-tighter shrink-0">
+                <img src="https://picsum.photos/id/431/1280/720" alt="Restaurant Interior" class="absolute inset-0 w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-1000">
+                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-700"></div>
+                
+                <div class="absolute bottom-0 left-0 w-full sm:w-auto sm:bottom-12 sm:left-12 flex flex-col sm:flex-row items-stretch sm:items-center bg-white dark:bg-zinc-950 sm:bg-transparent overflow-hidden sm:overflow-visible">
+                    <div class="w-full sm:w-20 h-16 sm:h-20 bg-orange-600 flex items-center justify-center text-white font-black text-2xl tracking-tighter shrink-0 z-10">
                         S / M
                     </div>
-                    <div class="text-black dark:text-white p-4 sm:p-0 sm:pl-6 sm:bg-transparent bg-white dark:bg-zinc-900">
+                    <div class="text-black dark:text-white p-4 sm:p-0 sm:pl-6 sm:bg-transparent bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm sm:backdrop-blur-0 relative z-10">
                         <p class="font-black uppercase text-2xl tracking-tight leading-none mb-1">Special of the Month</p>
-                        <p class="font-bold text-zinc-500 uppercase tracking-widest text-xs">Grilled Ribs with Honey Sauce</p>
+                        <p class="font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-widest text-xs">Grilled Ribs with Honey Sauce</p>
                     </div>
                 </div>
             </div>
@@ -65,8 +67,12 @@
                                     <span class="text-orange-600 font-black text-xl tracking-tight">IDR {{ number_format($item->price, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="aspect-4/5 bg-zinc-200 dark:bg-zinc-900 mb-6 flex items-center justify-center relative overflow-hidden transition-transform duration-700">
-                                    <svg class="size-16 text-zinc-400 dark:text-zinc-700 transition-transform duration-700 group-hover:scale-110" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
-                                    <div class="absolute inset-0 bg-transparent group-hover:bg-orange-600/10 transition-colors duration-500"></div>
+                                    @if($item->image_url)
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="absolute inset-0 w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700">
+                                    @else
+                                        <svg class="size-16 text-zinc-400 dark:text-zinc-700 transition-transform duration-700 group-hover:scale-110" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
+                                    @endif
+                                    <div class="absolute inset-0 bg-black/10 group-hover:bg-orange-600/10 transition-colors duration-500"></div>
                                 </div>
                                 <h3 class="text-3xl font-black uppercase tracking-tight mb-3 text-black dark:text-white group-hover:text-orange-600 transition-colors">{{ $item->name }}</h3>
                                 <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed font-medium">{{ $item->description }}</p>

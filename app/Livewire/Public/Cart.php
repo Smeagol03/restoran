@@ -14,8 +14,11 @@ class Cart extends Component
 
     public int $count = 0;
 
-    public function mount(CartService $cart): void
+    public string $mode = 'drawer'; // 'drawer' or 'inline'
+
+    public function mount(CartService $cart, string $mode = 'drawer'): void
     {
+        $this->mode = $mode;
         $this->loadCart($cart);
     }
 
@@ -33,6 +36,7 @@ class Cart extends Component
         if ($item) {
             $cart->update($menuItemId, $item['quantity'] + 1);
             $this->loadCart($cart);
+            $this->dispatch('cart-updated');
         }
     }
 
@@ -45,12 +49,14 @@ class Cart extends Component
             $cart->remove($menuItemId);
         }
         $this->loadCart($cart);
+        $this->dispatch('cart-updated');
     }
 
     public function remove(int $menuItemId, CartService $cart): void
     {
         $cart->remove($menuItemId);
         $this->loadCart($cart);
+        $this->dispatch('cart-updated');
     }
 
     public function render(): \Illuminate\View\View

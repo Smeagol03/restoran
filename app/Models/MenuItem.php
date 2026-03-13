@@ -29,6 +29,7 @@ class MenuItem extends Model
         'is_available',
         'is_featured',
         'preparation_time',
+        'image_url',
     ];
 
     protected function casts(): array

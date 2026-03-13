@@ -39,12 +39,12 @@
                         <x-input type="number" id="preparation_time" wire:model="preparation_time" placeholder="Contoh: 15" />
                         <x-error :messages="$errors->get('preparation_time')" />
                     </div>
-                </div>
-
-                <div>
-                    <x-label for="description" value="Deskripsi" />
-                    <x-textarea id="description" wire:model="description" rows="3" placeholder="Jelaskan detail menu ini..."></x-textarea>
-                    <x-error :messages="$errors->get('description')" />
+                    <div class="md:col-span-2">
+                        <x-label for="image_url" value="URL Gambar (Opsional)" />
+                        <x-input type="url" id="image_url" wire:model="image_url" placeholder="https://example.com/image.jpg" />
+                        <x-error :messages="$errors->get('image_url')" />
+                        <p class="text-[10px] text-zinc-400 mt-1 italic">Tip: Gunakan https://picsum.photos/id/292/400/300 untuk placeholder makanan</p>
+                    </div>
                 </div>
 
                 <div class="flex flex-wrap gap-8 py-2">
@@ -86,10 +86,21 @@
                 @forelse($menuItems as $item)
                     <tr class="text-zinc-900 dark:text-zinc-300">
                         <td class="px-6 py-4">
-                            <div class="font-semibold">{{ $item->name }}</div>
-                            @if($item->is_featured)
-                                <span class="text-[10px] bg-yellow-100 text-yellow-700 px-1 rounded">Favorit</span>
-                            @endif
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shrink-0">
+                                    @if($item->image_url)
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                                    @else
+                                        <svg class="size-6 text-zinc-300 dark:text-zinc-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" /></svg>
+                                    @endif
+                                </div>
+                                <div>
+                                    <div class="font-semibold">{{ $item->name }}</div>
+                                    @if($item->is_featured)
+                                        <span class="text-[10px] bg-yellow-100 text-yellow-700 px-1 rounded">Favorit</span>
+                                    @endif
+                                </div>
+                            </div>
                         </td>
                         <td class="px-6 py-4">{{ $item->category->name }}</td>
                         <td class="px-6 py-4 font-medium"><x-currency :value="$item->price" /></td>

@@ -18,9 +18,9 @@ class MenuItems extends Component
 
     public $price;
 
-    public $description;
-
     public $preparation_time;
+
+    public $image_url;
 
     public $menuId;
 
@@ -38,8 +38,8 @@ class MenuItems extends Component
         'name' => 'required|min:3|max:255',
         'category_id' => 'required|exists:categories,id',
         'price' => 'required|numeric|min:0',
-        'description' => 'nullable|max:1000',
         'preparation_time' => 'nullable|integer|min:0',
+        'image_url' => 'nullable|url|max:255',
         'is_available' => 'boolean',
         'is_featured' => 'boolean',
     ];
@@ -63,11 +63,11 @@ class MenuItems extends Component
             'category_id' => $this->category_id,
             'name' => $this->name,
             'slug' => Str::slug($this->name),
-            'description' => $this->description,
             'price' => $this->price,
             'is_available' => $this->is_available,
             'is_featured' => $this->is_featured,
             'preparation_time' => $this->preparation_time,
+            'image_url' => $this->image_url,
         ]);
 
         $this->resetInputFields();
@@ -82,8 +82,8 @@ class MenuItems extends Component
         $this->name = $menu->name;
         $this->category_id = $menu->category_id;
         $this->price = $menu->price;
-        $this->description = $menu->description;
         $this->preparation_time = $menu->preparation_time;
+        $this->image_url = $menu->image_url;
         $this->is_available = $menu->is_available;
         $this->is_featured = $menu->is_featured;
         $this->isEditing = true;
@@ -98,11 +98,11 @@ class MenuItems extends Component
             'category_id' => $this->category_id,
             'name' => $this->name,
             'slug' => Str::slug($this->name),
-            'description' => $this->description,
             'price' => $this->price,
             'is_available' => $this->is_available,
             'is_featured' => $this->is_featured,
             'preparation_time' => $this->preparation_time,
+            'image_url' => $this->image_url,
         ]);
 
         $this->resetInputFields();
@@ -134,8 +134,8 @@ class MenuItems extends Component
         $this->name = '';
         $this->category_id = '';
         $this->price = '';
-        $this->description = '';
         $this->preparation_time = '';
+        $this->image_url = '';
         $this->is_available = true;
         $this->is_featured = false;
         $this->menuId = null;
