@@ -64,7 +64,7 @@
             <template x-teleport="body">
                 <div
                     x-show="open"
-                    class="fixed inset-0 z-[100] overflow-hidden"
+                    class="fixed inset-0 z-100 overflow-hidden"
                     style="display: none;"
                 >
                     {{-- Backdrop --}}
