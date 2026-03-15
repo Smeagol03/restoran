@@ -5,6 +5,19 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimization for mobile scrolling feel */
+@media (max-width: 768px) {
+    body {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
 @theme {
     --font-sans:
         "Instrument Sans", ui-sans-serif, system-ui, sans-serif,

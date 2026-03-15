@@ -1,16 +1,18 @@
 <x-layouts.public>
     <div class="bg-white dark:bg-black w-full overflow-hidden font-sans selection:bg-orange-500 selection:text-white">
         {{-- Hero Section --}}
-        <div class="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-20">
+        <div class="relative min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
             {{-- Background Layers --}}
             <div class="absolute inset-0 z-0">
-                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2000');"></div>
-                <div class="absolute inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-[1px]"></div>
-                <div class="absolute inset-0 bg-linear-to-b from-black/40 via-transparent to-black/80"></div>
+                {{-- Fixed Background Parallax Optimized --}}
+                <div class="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=75&w=1280');"></div>
+                {{-- Simplified Overlays --}}
+                <div class="absolute inset-0 bg-black/50 dark:bg-black/70"></div>
+                <div class="absolute inset-0 bg-linear-to-b from-black/60 via-transparent to-black/90"></div>
             </div>
 
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-24">
-                <div class="lg:col-span-8 space-y-10">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-24 pt-32 lg:pt-24">
+                <div class="lg:col-span-8 space-y-10 text-left">
                     <div class="flex items-center gap-4">
                         <span class="w-12 h-px bg-orange-600"></span>
                         <span class="text-orange-500 font-black uppercase tracking-[0.4em] text-xs">Est. 2026 / Modern Dining</span>
@@ -151,7 +153,7 @@
                     
                     <div class="order-1 lg:order-2 relative">
                         <div class="aspect-4/5 bg-zinc-900 shadow-2xl relative overflow-hidden group">
-                            <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&q=80&w=1200" alt="Kitchen Action" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105">
+                            <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&q=75&w=800" alt="Kitchen Action" class="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105">
                             <div class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-60"></div>
                         </div>
                         
@@ -177,20 +179,20 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 min-h-[400px] md:h-[600px]">
                     <div class="md:col-span-2 h-[300px] md:h-auto relative overflow-hidden group">
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1200" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=75&w=800" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                     </div>
                     <div class="md:col-span-1 h-[200px] md:h-auto relative overflow-hidden group">
-                        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=75&w=400" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                     </div>
                     <div class="md:col-span-1 grid grid-cols-2 md:grid-cols-1 gap-4">
                         <div class="h-[150px] md:h-auto relative overflow-hidden group">
-                            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=75&w=400" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                             <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                         </div>
                         <div class="h-[150px] md:h-auto relative overflow-hidden group">
-                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=75&w=400" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                             <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                         </div>
                     </div>
