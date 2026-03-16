@@ -29,7 +29,7 @@
                     </p>
 
                     <div class="flex flex-wrap items-center gap-8 pt-4">
-                        <a href="{{ route('menu.index') }}" class="group relative inline-flex items-center gap-4 bg-orange-600 hover:bg-white text-white hover:text-black px-12 py-6 text-xl font-black uppercase tracking-widest transition-all duration-500 shadow-2xl overflow-hidden" wire:navigate>
+                        <a href="{{ route('menu.index') }}" class="group relative inline-flex items-center gap-4 bg-orange-600 hover:bg-white text-white hover:text-black px-12 py-6 text-xl font-black uppercase tracking-widest transition-all duration-500 shadow-2xl overflow-hidden" wire:navigate.hover>
                             <span class="relative z-10">Lihat Menu</span>
                             <svg class="size-6 transition-transform group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                         </a>
